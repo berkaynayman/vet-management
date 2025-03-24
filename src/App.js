@@ -1,16 +1,18 @@
 import React from "react";
-import { Container, Typography, Button } from "@mui/material";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import DoctorLogin from "./pages/doctor/DoctorLogin";
+import DoctorRegister from "./pages/doctor/DoctorRegister";
+import DoctorDashboard from "./pages/doctor/DoctorDashboard";
 
 function App() {
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
-        Veteriner Yönetim Sistemi
-      </Typography>
-      <Button variant="contained" color="primary">
-        Başla
-      </Button>
-    </Container>
+    <Router>
+      <Routes>
+        <Route path="/doctor/login" element={<DoctorLogin />} />
+        <Route path="/doctor/register" element={<DoctorRegister />} />
+        <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
+      </Routes>
+    </Router>
   );
 }
 
