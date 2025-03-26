@@ -1,50 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Box, Typography, Button } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Container, Typography, Button } from "@mui/material";
+import Sidebar from "../../components/layout/Sidebar";
+import AppointmentList from "../../components/appointments/AppointmentList";
+import AddAppointmentModal from "../../components/appointments/AddAppointmentModal";
 
 const DoctorDashboard = () => {
-  const navigate = useNavigate();
-  const [doctor, setDoctor] = useState(null);
+  const [refresh, setRefresh] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    try {
-      const storedDoctor = localStorage.getItem("doctor");
-
-      if (!storedDoctor) {
-        navigate("/doctor/login");
-        return;
-      }
-
-      const doctorData = JSON.parse(storedDoctor);
-      setDoctor(doctorData);
-    } catch (error) {
-      console.error("Error reading doctor data:", error);
-      localStorage.removeItem("doctor");
-      navigate("/doctor/login");
-    }
-  }, [navigate]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("doctor");
-    localStorage.removeItem("token");
-    navigate("/doctor/login");
+  const refreshAppointments = () => {
+    setRefresh((prev) => !prev); // Yeni randevu eklendiğinde listeyi yenile
   };
 
   return (
-    <Box sx={{ maxWidth: 600, mx: "auto", mt: 5, textAlign: "center" }}>
-      {doctor ? (
-        <>
-          <Typography variant="h4">Welcome, Dr. {doctor.name} 👨‍⚕️</Typography>
-          <Typography variant="subtitle1" sx={{ mt: 2 }}>
-            Email: {doctor.email}
-          </Typography>
-          <Button variant="contained" color="secondary" onClick={handleLogout} sx={{ mt: 3 }}>
-            Logout
-          </Button>
-        </>
-      ) : (
-        <Typography variant="h5">Loading...</Typography>
-      )}
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
+      {/* Sidebar Menü */}
+      <Sidebar />
+
+      {/* Dashboard İçeriği */}
+      <Box component="main" sx={{ flexGrow: 1, p: { xs: 2, md: 4 }, bgcolor: "#f9f9f9", minHeight: "100vh" }}>
+        <Container maxWidth="lg">
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+            <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold", color: "#333" }}>
+              Doctor Dashboard
+            </Typography>
+
+            {/* Randevu Ekleme Butonu */}
+            <Button variant="contained" color="primary" onClick={() => setIsModalOpen(true)}>
+              Add Appointment
+            </Button>
+          </Box>
+
+          {/* Modal */}
+          <AddAppointmentModal open={isModalOpen} onClose={() => setIsModalOpen(false)} onAppointmentAdded={refreshAppointments} />
+
+          {/* Günlük Randevular */}
+          <AppointmentList key={refresh} />
+        </Container>
+      </Box>
     </Box>
   );
 };

@@ -8,9 +8,15 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Login & Register Rotaları */}
         <Route path="/doctor/login" element={<DoctorLogin />} />
         <Route path="/doctor/register" element={<DoctorRegister />} />
+        
+        {/* Dashboard Rotası */}
         <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
+
+        {/* Eğer bilinmeyen bir rota girilirse, login sayfasına yönlendir */}
+        <Route path="*" element={<DoctorLogin />} />
       </Routes>
     </Router>
   );
