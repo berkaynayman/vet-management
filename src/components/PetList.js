@@ -11,8 +11,7 @@ import {
   CardContent,
 } from "@mui/material";
 
-const PetList = ({ token }) => {
-  const [pets, setPets] = useState([]);
+const PetList = ({ token, pets, setPets }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
