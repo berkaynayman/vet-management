@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Container, Typography, Box, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom"; // Yönlendirme için
 import PetList from "../../components/PetList";
 import AddPetModal from "../../components/AddPetModal";
 
 const PetOwnerDashboard = () => {
-  const token = localStorage.getItem("petOwnerToken"); // Kullanıcı giriş yaptıysa token'ı al
+  const navigate = useNavigate();
+  const token = localStorage.getItem("petOwnerToken");
 
   const [openModal, setOpenModal] = useState(false);
   const [pets, setPets] = useState([]);
@@ -17,16 +19,25 @@ const PetOwnerDashboard = () => {
     setPets((prevPets) => [...prevPets, newPet]);
   };
 
+  // Logout işlemi
+  const handleLogout = () => {
+    localStorage.removeItem("petOwnerToken");
+    localStorage.removeItem("petOwner");
+    navigate("/pet-owner/login"); // Login sayfasına yönlendir
+  };
+
   return (
     <Container maxWidth="md">
-      <Box sx={{ textAlign: "center", mt: 5 }}>
-        <Typography variant="h4" gutterBottom>
-          Welcome to Pet Owner Dashboard
-        </Typography>
-        <Typography variant="body1">
-          Here you can view and manage your pet's appointments.
-        </Typography>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: 3 }}>
+        <Typography variant="h4">Welcome to Pet Owner Dashboard</Typography>
+        <Button variant="contained" color="secondary" onClick={handleLogout}>
+          Logout
+        </Button>
       </Box>
+
+      <Typography variant="body1" sx={{ textAlign: "center", mt: 2 }}>
+        Here you can view and manage your pet's appointments.
+      </Typography>
 
       <Button variant="contained" color="primary" onClick={handleOpenModal} sx={{ mt: 3 }}>
         Add New Pet

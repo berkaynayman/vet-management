@@ -4,6 +4,8 @@ import DoctorLogin from "./pages/doctor/DoctorLogin";
 import DoctorRegister from "./pages/doctor/DoctorRegister";
 import DoctorDashboard from "./pages/doctor/DoctorDashboard";
 
+import ProtectedRoute from "./routes/ProtectedRoute";
+
 import PetOwnerRegister from "./pages/petOwner/PetOwnerRegister";
 import PetOwnerLogin from "./pages/petOwner/PetOwnerLogin";
 import PetOwnerDashboard from "./pages/petOwner/PetOwnerDashboard";
@@ -25,8 +27,11 @@ function App() {
 
         <Route path="/pet-owner/register" element={<PetOwnerRegister />} />
         <Route path="/pet-owner/login" element={<PetOwnerLogin />} />
-        <Route path="/pet-owner/dashboard" element={<PetOwnerDashboard />} />
         
+        <Route element={<ProtectedRoute />}>
+          <Route path="/pet-owner/dashboard" element={<PetOwnerDashboard />} />
+        </Route>
+
       </Routes>
     </Router>
   );
