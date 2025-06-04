@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-import { Drawer, List, ListItem, ListItemText, IconButton, Box } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Drawer, List, ListItem, ListItemText, IconButton, Box, Button } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem("doctor"); // Doktor bilgisini sil
+    localStorage.removeItem("token"); // Tokeni sil
+    navigate("/doctor/login"); // Login sayfasına yönlendir
+  };
 
   return (
     <>
@@ -29,7 +36,7 @@ const Sidebar = () => {
           },
         }}
       >
-        <SidebarContent />
+        <SidebarContent handleLogout={handleLogout} />
       </Drawer>
 
       {/* Mobil için açılır kapanır Sidebar */}
@@ -42,14 +49,14 @@ const Sidebar = () => {
           "& .MuiDrawer-paper": { width: "80%" },
         }}
       >
-        <SidebarContent closeMenu={() => setOpen(false)} />
+        <SidebarContent closeMenu={() => setOpen(false)} handleLogout={handleLogout} />
       </Drawer>
     </>
   );
 };
 
 // Sidebar içeriğini ayrı bir bileşen olarak tanımlayalım
-const SidebarContent = ({ closeMenu }) => (
+const SidebarContent = ({ closeMenu, handleLogout }) => (
   <Box sx={{ width: 240 }}>
     <List>
       <ListItem button component={Link} to="/doctor/dashboard" onClick={closeMenu}>
@@ -62,6 +69,13 @@ const SidebarContent = ({ closeMenu }) => (
         <ListItemText primary="Patients" />
       </ListItem>
     </List>
+
+    {/* Logout Butonu */}
+    <Box sx={{ textAlign: "center", mt: 2 }}>
+      <Button variant="contained" color="error" onClick={handleLogout}>
+        Logout
+      </Button>
+    </Box>
   </Box>
 );
 
