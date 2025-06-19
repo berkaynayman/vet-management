@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation"
 import { CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { format, isBefore } from "date-fns"
+import { format, isBefore, startOfDay } from "date-fns"
 import { cn } from "@/lib/utils"
 
 type Pet = {
@@ -93,8 +93,23 @@ export default function BookAppointmentPage() {
   useEffect(() => {
     // Generate time slots from 9 AM to 5 PM with 30-minute intervals
     const slots: TimeSlot[] = []
+    const now = new Date()
+    const currentHour = now.getHours()
+    const currentMinute = now.getMinutes()
+    
     for (let hour = 9; hour < 17; hour++) {
       for (const minute of [0, 30]) {
+        // If date is today, only show future time slots
+        const isToday = date && 
+          date.getDate() === now.getDate() && 
+          date.getMonth() === now.getMonth() && 
+          date.getFullYear() === now.getFullYear()
+        
+        // Skip time slots in the past for today
+        if (isToday && (hour < currentHour || (hour === currentHour && minute <= currentMinute))) {
+          continue
+        }
+        
         const timeString = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`
         slots.push({
           hour,
@@ -104,7 +119,12 @@ export default function BookAppointmentPage() {
       }
     }
     setTimeSlots(slots)
-  }, [])
+    
+    // Clear selected time slot if it's no longer available
+    if (timeSlot && !slots.some(slot => slot.label === timeSlot)) {
+      setTimeSlot(undefined)
+    }
+  }, [date, timeSlot])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -257,8 +277,9 @@ export default function BookAppointmentPage() {
                       onSelect={setDate}
                       initialFocus
                       disabled={(date) => {
-                        // Disable past dates and weekends
-                        return isBefore(date, new Date()) || date.getDay() === 0 || date.getDay() === 6
+                        // Disable past dates (except today) and weekends
+                        const today = startOfDay(new Date())
+                        return isBefore(date, today) || date.getDay() === 0 || date.getDay() === 6
                       }}
                     />
                   </PopoverContent>
