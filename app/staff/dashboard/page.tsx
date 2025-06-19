@@ -13,10 +13,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { format, isToday, isFuture, addDays } from "date-fns"
 
 type Appointment = {
-  id: string
-  pet_id: string
-  doctor_id: string
-  appointment_date: string
+  _id: string
+  appointmentDate: string
   description: string
   status: "scheduled" | "in_progress" | "completed" | "cancelled"
   pet: {
@@ -175,13 +173,13 @@ undefined
   }
 
   const todayAppointments = appointments.filter(
-    (appointment) => isToday(new Date(appointment.appointment_date)) && appointment.status !== "cancelled",
+    (appointment) => isToday(new Date(appointment.appointmentDate)) && appointment.status !== "cancelled",
   )
 
   const upcomingAppointments = appointments.filter(
     (appointment) =>
-      !isToday(new Date(appointment.appointment_date)) &&
-      isFuture(new Date(appointment.appointment_date)) &&
+      !isToday(new Date(appointment.appointmentDate)) &&
+      isFuture(new Date(appointment.appointmentDate)) &&
       appointment.status !== "cancelled",
   )
 
@@ -257,7 +255,7 @@ undefined
                 ) : (
                   <div className="space-y-4">
                     {todayAppointments.map((appointment) => (
-                      <Card key={appointment.id}>
+                      <Card key={appointment._id}>
                         <CardHeader className="pb-2">
                           <div className="flex justify-between items-start">
                             <div>
@@ -274,7 +272,7 @@ undefined
                           <div className="space-y-3">
                             <div className="flex items-center gap-2 text-sm">
                               <Clock className="h-4 w-4 text-gray-500" />
-                              <span>{formatTime(appointment.appointment_date)}</span>
+                              <span>{formatTime(appointment.appointmentDate)}</span>
                             </div>
                             <div className="text-sm">
                               <span className="font-medium">Doctor:</span> Dr. {appointment.doctor.first_name}{" "}
@@ -303,7 +301,7 @@ undefined
                 ) : (
                   <div className="space-y-4">
                     {upcomingAppointments.map((appointment) => (
-                      <Card key={appointment.id}>
+                      <Card key={appointment._id}>
                         <CardHeader className="pb-2">
                           <div className="flex justify-between items-start">
                             <div>
@@ -320,9 +318,9 @@ undefined
                           <div className="space-y-3">
                             <div className="flex items-center gap-2 text-sm">
                               <Calendar className="h-4 w-4 text-gray-500" />
-                              <span>{formatDate(appointment.appointment_date)}</span>
+                              <span>{formatDate(appointment.appointmentDate)}</span>
                               <Clock className="h-4 w-4 text-gray-500 ml-2" />
-                              <span>{formatTime(appointment.appointment_date)}</span>
+                              <span>{formatTime(appointment.appointmentDate)}</span>
                             </div>
                             <div className="text-sm">
                               <span className="font-medium">Doctor:</span> Dr. {appointment.doctor.first_name}{" "}
