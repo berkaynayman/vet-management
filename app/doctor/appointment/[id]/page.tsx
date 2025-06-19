@@ -17,7 +17,7 @@ import { format } from "date-fns"
 import { Label } from "@/components/ui/label"
 
 type AppointmentDetails = {
-  id: string
+  _id: string
   appointment_id: string
   diagnosis: string | null
   treatment: string | null
@@ -25,7 +25,7 @@ type AppointmentDetails = {
 }
 
 type Appointment = {
-  id: string
+  _id: string
   pet_id: string
   appointment_date: string
   description: string
@@ -51,7 +51,7 @@ export default function AppointmentDetailPage() {
   const { toast } = useToast()
   const router = useRouter()
   const params = useParams()
-  const appointmentId = params.id as string
+  const appointmentId = params._id as string
 
   const [appointment, setAppointment] = useState<Appointment | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -113,7 +113,7 @@ export default function AppointmentDetailPage() {
         }
 
         // Check if this appointment belongs to the current doctor
-        if (appointmentData.doctor.id !== user.id) {
+        if (appointmentData.doctor.id !== user._id) {
           toast({
             title: "Access Denied",
             description: "You don't have access to this appointment",
@@ -166,7 +166,7 @@ export default function AppointmentDetailPage() {
         notes: formData.notes || null,
       }
       
-      const updatedDetails = await apiClient.createOrUpdateAppointmentDetails(appointment.id, detailsData)
+      const updatedDetails = await apiClient.createOrUpdateAppointmentDetails(appointment._id, detailsData)
 
       toast({
         title: "Success",

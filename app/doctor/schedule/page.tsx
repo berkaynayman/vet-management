@@ -205,7 +205,7 @@ export default function DoctorSchedulePage() {
               ) : (
                 <div className="space-y-4">
                   {todayAppointments.map((appointment) => (
-                    <Card key={appointment.id}>
+                    <Card key={appointment._id}>
                       <CardHeader className="pb-2">
                         <div className="flex justify-between items-start">
                           <div>
@@ -230,7 +230,7 @@ export default function DoctorSchedulePage() {
                             </div>
                           )}
                           {appointment.status === "scheduled" && (
-                            <Button className="gap-2 mt-2" onClick={() => handleStartAppointment(appointment.id)}>
+                            <Button className="gap-2 mt-2" onClick={() => handleStartAppointment(appointment._id)}>
                               <FileText size={16} />
                               Start Appointment
                             </Button>
@@ -238,7 +238,7 @@ export default function DoctorSchedulePage() {
                           {appointment.status === "in_progress" && (
                             <Button
                               className="gap-2 mt-2"
-                              onClick={() => router.push(`/doctor/appointment/${appointment.id}`)}
+                              onClick={() => router.push(`/doctor/appointment/${appointment._id}`)}
                             >
                               <FileText size={16} />
                               Continue Appointment
@@ -306,7 +306,7 @@ export default function DoctorSchedulePage() {
               ) : (
                 <div className="space-y-4">
                   {pastAppointments.map((appointment) => (
-                    <Card key={appointment.id}>
+                    <Card key={appointment._id}>
                       <CardHeader className="pb-2">
                         <div className="flex justify-between items-start">
                           <div>
@@ -329,7 +329,7 @@ export default function DoctorSchedulePage() {
                             <Button
                               variant="outline"
                               className="gap-2 mt-2"
-                              onClick={() => router.push(`/doctor/appointment/${appointment.id}`)}
+                              onClick={() => router.push(`/doctor/appointment/${appointment._id}`)}
                             >
                               <FileText size={16} />
                               View Details
