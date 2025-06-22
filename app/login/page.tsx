@@ -151,36 +151,6 @@ export default function Login() {
                 </Link>
               </div>
             </form>
-
-            <div className="mt-6 pt-4 border-t">
-              <div className="text-xs text-gray-500 mb-2">
-                <strong>Demo Accounts:</strong>
-                <br />
-                Pet Owner: john.doe@example.com / any password
-                <br />
-                Doctor: testdoctor@example.com / any password
-                <br />
-                Staff: staff@example.com / any password
-              </div>
-
-              <Button variant="ghost" size="sm" className="gap-1 text-xs" onClick={toggleDebug}>
-                <Bug className="h-3 w-3" />
-                {showDebug ? "Hide Debug Info" : "Show Debug Info"}
-              </Button>
-
-              {showDebug && debugInfo && (
-                <Accordion type="single" collapsible className="mt-2">
-                  <AccordionItem value="debug">
-                    <AccordionTrigger className="text-xs">Debug Information</AccordionTrigger>
-                    <AccordionContent>
-                      <pre className="text-xs overflow-auto p-2 bg-gray-100 rounded max-h-40">
-                        {JSON.stringify(debugInfo, null, 2)}
-                      </pre>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              )}
-            </div>
           </CardContent>
         </Card>
       </main>
