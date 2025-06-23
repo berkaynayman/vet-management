@@ -62,7 +62,7 @@ export default function BookAppointmentPage() {
 
     const fetchPets = async () => {
       try {
-        const data = await apiClient.getPets(user.id)
+        const data = await apiClient.getPets(user._id)
         setPets(data)
       } catch (error: any) {
         toast({

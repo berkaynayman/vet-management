@@ -51,7 +51,7 @@ export default function AppointmentDetailPage() {
   const { toast } = useToast()
   const router = useRouter()
   const params = useParams()
-  const appointmentId = params._id as string
+  const appointmentId = params.id as string
 
   const [appointment, setAppointment] = useState<Appointment | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -113,7 +113,7 @@ export default function AppointmentDetailPage() {
         }
 
         // Check if this appointment belongs to the current doctor
-        if (appointmentData.doctor.id !== user._id) {
+        if (appointmentData.doctor._id !== user._id) {
           toast({
             title: "Access Denied",
             description: "You don't have access to this appointment",
@@ -203,7 +203,7 @@ export default function AppointmentDetailPage() {
       await handleSave()
 
       // Then update appointment status
-      await apiClient.updateAppointment(appointment.id, { status: "completed" })
+      await apiClient.updateAppointment(appointment._id, { status: "completed" })
 
       toast({
         title: "Success",

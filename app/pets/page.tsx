@@ -12,7 +12,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 type Pet = {
-  id: string
+  _id: string
   name: string
   type: string
   breed: string
@@ -35,7 +35,7 @@ export default function PetsPage() {
 
     const fetchPets = async () => {
       try {
-        const data = await apiClient.getPets(user.id)
+        const data = await apiClient.getPets(user._id)
         setPets(data)
       } catch (error: any) {
         toast({
@@ -58,7 +58,7 @@ export default function PetsPage() {
 
     try {
       await apiClient.deletePet(petId)
-      setPets(pets.filter((pet) => pet.id !== petId))
+      setPets(pets.filter((pet) => pet._id !== petId))
 
       toast({
         title: "Success",
@@ -158,7 +158,7 @@ export default function PetsPage() {
                   </div>
                 </CardContent>
                 <CardFooter className="flex justify-between">
-                  <Link href={`/pets/edit/${pet.id}`}>
+                  <Link href={`/pets/edit/${pet._id}`}>
                     <Button variant="outline" size="sm" className="gap-1">
                       <Pencil size={14} />
                       Edit
@@ -168,7 +168,7 @@ export default function PetsPage() {
                     variant="outline"
                     size="sm"
                     className="gap-1 text-red-500 hover:text-red-600"
-                    onClick={() => handleDeletePet(pet.id)}
+                    onClick={() => handleDeletePet(pet._id)}
                   >
                     <Trash2 size={14} />
                     Delete

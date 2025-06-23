@@ -74,7 +74,7 @@ export default function DoctorSchedulePage() {
         setIsLoading(true)
         
         // Fetch appointments using apiClient
-        const appointments = await apiClient.getAppointments({ doctorId: user.id });
+        const appointments = await apiClient.getAppointments({ doctorId: user._id });
         
         // Filter out cancelled appointments
         const filteredAppointments = appointments.filter(

@@ -51,9 +51,9 @@ export default function AppointmentsPage() {
       try {
         // First get all pets owned by the user
         console.log('user', user)
-        const pets = await apiClient.getPets(user.id)
+        const pets = await apiClient.getPets(user._id)
         console.log('pets', pets)
-        const petIds = await pets.map((item) => item._id)
+        const petIds = pets.map((item) => item._id)
 
         if (petIds.length === 0) {
           setAppointments([])
@@ -213,7 +213,7 @@ export default function AppointmentsPage() {
               ) : (
                 <div className="space-y-4">
                   {upcomingAppointments.map((appointment) => (
-                    <Card key={appointment.id}>
+                    <Card key={appointment._id}>
                       <CardHeader className="pb-2">
                         <div className="flex justify-between items-start">
                           <div>
@@ -245,7 +245,7 @@ export default function AppointmentsPage() {
                               variant="outline"
                               size="sm"
                               className="gap-1 text-red-500 hover:text-red-600 mt-2"
-                              onClick={() => handleCancelAppointment(appointment.id)}
+                              onClick={() => handleCancelAppointment(appointment._id)}
                             >
                               <X size={14} />
                               Cancel Appointment
@@ -269,7 +269,7 @@ export default function AppointmentsPage() {
               ) : (
                 <div className="space-y-4">
                   {pastAppointments.map((appointment) => (
-                    <Card key={appointment.id}>
+                    <Card key={appointment._id}>
                       <CardHeader className="pb-2">
                         <div className="flex justify-between items-start">
                           <div>

@@ -75,7 +75,7 @@ export default function AddPetPage() {
 
     try {
       await apiClient.createPet({
-        owner_id: user.id,
+        owner_id: user._id,
         name: formData.name,
         type: formData.type,
         breed: formData.breed || undefined,

@@ -78,7 +78,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const { user, session } = await apiClient.signIn(email, password)
       setUser(user)
       setSession({ user })
-      console.log("Sign in successful:", user.id)
       return { data: { user }, error: null }
     } catch (err: any) {
       console.error("Sign in error:", err)
