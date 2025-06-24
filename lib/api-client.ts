@@ -515,6 +515,59 @@ export const apiClient = {
     }
   },
 
+  // Profile
+  getProfile: async () => {
+    try {
+      const token = await localStorage.getItem("authToken");
+      console.log("Token:", token);
+      if (!token) {
+        throw new Error("Authentication required");
+      }
+      
+      const response = await fetch(`${API_BASE_URL}/api/profile`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error("Failed to fetch profile");
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('API call failed:', error);
+      throw new Error("Failed to fetch profile. Please try again later.");
+    }
+  },
+
+  updateProfile: async (profileData: { first_name?: string; last_name?: string; phone?: string }) => {
+    try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        throw new Error("Authentication required");
+      }
+      
+      const response = await fetch(`${API_BASE_URL}/api/profile`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(profileData)
+      });
+      
+      if (!response.ok) {
+        throw new Error("Failed to update profile");
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('API call failed:', error);
+      throw new Error("Failed to update profile. Please try again later.");
+    }
+  },
+
   // Statistics
   getStats: async () => {
     try {
